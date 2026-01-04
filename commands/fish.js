@@ -29,9 +29,16 @@ export async function execute(interaction) {
         }
         const userId = interaction.user.id
         const users = loadUsers()
+        
         if(!users[userId]){
-            await interaction.reply({content : "You haven't got yourself a fishing license, please use /register" , ephemeral : true},)
+            await interaction.reply({
+                content : "You haven't got yourself a fishing license, please use /register", 
+                ephemeral : true})
             return
+        }
+        if(users[userId].pity=== undefined){
+            users[userId].pity = 0;
+            console.log("Patched pity field to user ", users[userId].username)
         }
         await interaction.deferReply({ephemeral:true})
         await interaction.editReply({
@@ -56,44 +63,55 @@ export async function execute(interaction) {
             content: "💦 **SOMETHING BIT THE HOOK!**\n\nQUICK! Click the button below! You have **60 seconds**!",
             components: [row]
         })
-        const message = await interaction.fetchReply();
+       const message = await interaction.fetchReply();
         try {
             const confirmation = await message.awaitMessageComponent({ 
                 filter: i => i.user.id === userId && i.customId === 'lift_rod', 
-                time: 60000, // 60 seconds
+                time: 60000,
                 componentType: ComponentType.Button 
             });
 
-            const disabledRow = new ActionRowBuilder().addComponents(
-                liftButton.setDisabled(true).setLabel('Reeling in...')
-            );
-            await confirmation.update({ components: [disabledRow] })
+            await confirmation.update({ components: [new ActionRowBuilder().addComponents(liftButton.setDisabled(true).setLabel('Reeling in...'))] });
+            
             const loot = loadLoot();
             if (!loot) {
-                await interaction.editReply({ content: "You reeled it in... but the ocean is empty? (Missing loot.json)", components: [] })
-                return
+                await interaction.editReply({ content: "Missing loot.json!", components: [] });
+                return;
             }
-            const roll = Math.floor(Math.random() * 100) + 1
+
+            const roll = Math.floor(Math.random() * 100) + 1;
             let rarity = "";
-            let fishList = [];
-            //Common 75%, Rare 20%, Legendary 3%, Fuchsia 2%
-            if (roll <= 75) {
-                rarity = "common"
-                fishList = loot.common
-            } else if (roll <= 95) {
-                rarity = "rare"
-                fishList = loot.rare
-            } else if (roll <= 98) {
+            const currpity = users[userId].pity + 1;
+
+            if (currpity >= 20) {
                 rarity = "legendary";
-                fishList = loot.legendary
+                users[userId].pity = 0; // Hard pity reset
+            } else if (currpity >= 5 && currpity % 5 === 0) {
+                rarity = "rare";
+                users[userId].pity = currpity; // Soft pity increment
             } else {
-                rarity = "fuchsia"
-                fishList = loot.fuchsia
+                // Standard rolling
+                if (roll <= 75) rarity = "common";
+                else if (roll <= 95) rarity = "rare";
+                else if (roll <= 98) rarity = "legendary";
+                else rarity = "fuchsia";
+
+                // Update pity based on what was rolled
+                if (rarity === 'legendary' || rarity === 'fuchsia') {
+                    users[userId].pity = 0;
+                } else {
+                    users[userId].pity = currpity;
+                }
             }
-            const caughtFish = fishList[Math.floor(Math.random() * fishList.length)]
-            if (!users[userId].stats[rarity]) users[userId].stats[rarity] = 0
-            users[userId].stats[rarity] += 1
-            saveUser(userId, users[userId])
+
+            
+            const fishList = loot[rarity]; 
+            const caughtFish = fishList[Math.floor(Math.random() * fishList.length)];
+
+            // Save stats and pity
+            if (!users[userId].stats[rarity]) users[userId].stats[rarity] = 0;
+            users[userId].stats[rarity] += 1;
+            saveUser(userId, users[userId]);
             let publicContent = "";
             let publicFiles = [];
             const fishName = caughtFish.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
