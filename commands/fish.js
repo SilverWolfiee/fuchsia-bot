@@ -5,13 +5,7 @@ import path from "path"
 
 const allowedChannels = ["1457317154373369936", "1432372213700628592"]; //modify this according to ur discord server
 
-        if (!allowedChannels.includes(interaction.channelId)) {
-            await interaction.reply({ 
-                content: "🚫 **No Fishing Here!**\nThe water is too shallow! Please go to the designated fishing zones. 🎣", 
-                ephemeral: true 
-            });
-            return; 
-        }
+        
 
 const loadLoot=()=>{
     const lootPath = path.join(process.cwd(), 'data/loot.json');
@@ -26,6 +20,13 @@ export const command = new SlashCommandBuilder()
 
 export async function execute(interaction) {
     try{
+        if (!allowedChannels.includes(interaction.channelId)) {
+            await interaction.reply({ 
+                content: "🚫 **No Fishing Here!**\nThe water is too shallow! Please go to the designated fishing zones. 🎣", 
+                ephemeral: true 
+            });
+            return; 
+        }
         const userId = interaction.user.id
         const users = loadUsers()
         if(!users[userId]){
