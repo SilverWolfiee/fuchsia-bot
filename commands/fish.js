@@ -30,7 +30,7 @@ export async function execute(interaction) {
         const userId = interaction.user.id
         const users = loadUsers()
         if(!users[userId]){
-            await interaction.reply({content : "You haven't got yourself a fishing license, please use /register"})
+            await interaction.reply({content : "You haven't got yourself a fishing license, please use /register" , ephemeral : true},)
             return
         }
         await interaction.deferReply({ephemeral:true})
