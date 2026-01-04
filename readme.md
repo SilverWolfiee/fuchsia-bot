@@ -1,0 +1,26 @@
+# Fuchsia Bot
+
+a simple fishing bot that attempt to recreate a bot with the same name in the strinova mobile discord server
+---
+
+## ✨ Features
+
+- nothing, fk u eko budi pekerti(i have finals so i haven't implement stuff)
+
+
+---
+
+## 🧩 Upcoming Features
+- fishing
+---
+
+## 🤝 Contributing
+
+Feel free to fork and open a pull request! Suggestions for new features are always welcome.
+
+
+## requirement
+[node.js](https://nodejs.org)
+## extra notes
+This bot will only run on real operating systems such as GNU/Linux, i wont be making support for winslop
+
