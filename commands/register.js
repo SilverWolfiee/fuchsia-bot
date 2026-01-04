@@ -17,14 +17,13 @@ export async function execute(interaction) {
             await interaction.editReply('You already have an account!');
             return;
         }
-
-       
         const newUser = {
             username: interaction.user.username,
             stats: {
                 common: 0,
                 rare: 0,
-                legendary: 0
+                legendary: 0,
+                Fuchsia: 0
             },
             joinedAt: new Date().toISOString()
         };

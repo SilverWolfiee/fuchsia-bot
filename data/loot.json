@@ -1,0 +1,16 @@
+{
+    "common": [
+        "seaweed", "scallop", "blue_tang", "clownfish", 
+        "lionfish", "pufferfish", "tropical_fish"
+    ],
+    "rare": [
+        "hammershark", "arapaima", "swordfish", "octopus", "jellyfish"
+    ],
+    "legendary": [
+        "giant_squid", "manta_ray", "Hysilens", 
+        "whale_shark", "great_white_shark"
+    ],
+    "fuchsia": [
+        "Fuchsia"
+    ]
+}

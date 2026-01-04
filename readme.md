@@ -5,13 +5,14 @@ a simple fishing bot that attempt to recreate a bot with the same name in the st
 
 ## ✨ Features
 
-- nothing, fk u eko budi pekerti(i have finals so i haven't implement stuff)
+- Fishing
 
 
 ---
 
 ## 🧩 Upcoming Features
-- fishing
+- Exp Features
+- leaderboard
 ---
 
 ## 🤝 Contributing

@@ -1,7 +1,8 @@
 import { REST, Routes } from "discord.js";
 import "dotenv/config";
 import {command as register} from "./commands/register.js"
-const commands = [register].map(cmd =>
+import {command as fish} from "./commands/fish.js"
+const commands = [register, fish].map(cmd =>
   cmd.toJSON()
 );
 

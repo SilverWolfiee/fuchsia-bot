@@ -5,7 +5,7 @@ import path from "path"
 import os from "os"
 
 if(os.platform === "win32"){
-    console.log("here's a nickel kidm GET URSELF A REAL OS!!")
+    console.log("here's a nickel kid, GET URSELF A REAL OS!!")
 }
 
 const client = new Client({
