@@ -3,6 +3,16 @@ import { loadUsers, saveUser } from "../handlers/userdata.js";
 import fs from "fs"
 import path from "path"
 
+const allowedChannels = ["1457317154373369936", "1432372213700628592"]; //modify this according to ur discord server
+
+        if (!allowedChannels.includes(interaction.channelId)) {
+            await interaction.reply({ 
+                content: "🚫 **No Fishing Here!**\nThe water is too shallow! Please go to the designated fishing zones. 🎣", 
+                ephemeral: true 
+            });
+            return; 
+        }
+
 const loadLoot=()=>{
     const lootPath = path.join(process.cwd(), 'data/loot.json');
     if (!fs.existsSync(lootPath)) return null;
@@ -91,7 +101,7 @@ export async function execute(interaction) {
                 publicContent = `📸 **LEGENDARY CATCH LOG**\n**Player:** <@${userId}>\n**Loot:** Hysilens?!\n\n*Wait, how did she get in there?*`;
                 publicFiles = [new AttachmentBuilder('./assets/HysilensChibi.png')];
             } else if (caughtFish === "Fuchsia") {
-                publicContent = `🚨 **CRITICAL CATCH LOG**\n**Player:** <@${userId}>\n**Loot:** FUCHSIA?!\n\n*Put the developer down right now!*`;
+                publicContent = `🚨 **CRITICAL CATCH LOG**\n**Player:** <@${userId}>\n**Loot:** FUCHSIA?!\n\n*Put me down this instant!!*`;
                 publicFiles = [new AttachmentBuilder('./assets/Fufuhooked.png')];
             } else {
                 let emoji = "🐟"
