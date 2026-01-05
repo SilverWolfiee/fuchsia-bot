@@ -23,7 +23,7 @@ export async function execute(interaction) {
                 common: 0,
                 rare: 0,
                 legendary: 0,
-                Fuchsia: 0
+                fuchsia: 0
             },
             joinedAt: new Date().toISOString()
         };

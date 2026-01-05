@@ -166,7 +166,7 @@ export async function execute(interaction) {
         } catch (e) {
             users[userId].session = 0
             saveUser(userId, users[userId])
-            console.log("Collector error : ", e)
+            console.log(`User ${users[userId].username} forgot to reel in their rod in time`)
             const disabledRow = new ActionRowBuilder().addComponents(
                
                 liftButton.setDisabled(true).setLabel('Too slow!').setStyle(ButtonStyle.Secondary)
