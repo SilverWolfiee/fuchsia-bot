@@ -59,6 +59,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
     }
 });
 client.once(Events.ClientReady, (readyClient) => {
-    console.log(`Check-in complete! Logged in as ${readyClient.user.tag} ✨`);
+    console.log(`Logged in as ${readyClient.user.tag}`);
 });
 client.login(process.env.DISCORD_TOKEN)

@@ -33,13 +33,31 @@ export async function execute(interaction) {
         if(!users[userId]){
             await interaction.reply({
                 content : "You haven't got yourself a fishing license, please use /register", 
-                ephemeral : true})
+                ephemeral : true
+            });
             return
         }
         if(users[userId].pity=== undefined){
             users[userId].pity = 0;
             console.log("Patched pity field to user ", users[userId].username)
         }
+        if(users[userId].session === undefined){
+            users[userId].session = 0;
+            console.log("Patched session field for user ", users[userId].username)
+        }
+        if(users[userId].session === 1){
+            await interaction.reply({
+                content : `HEY! I only got 2 hands to help you fish, Finish your previous fishing session first`,
+                ephemeral : true
+                
+                
+            });
+            return;
+        }
+        users[userId].session = 1;
+        saveUser(userId, users[userId]);
+
+
         await interaction.deferReply({ephemeral:true})
         await interaction.editReply({
             content: "🎣 **You cast your line...**\n\n*Shhh... stay quiet and watch this message.*\n⚠️ **DO NOT dismiss this message or you'll lose the fish!**\nWaiting for a bite..."
@@ -76,6 +94,8 @@ export async function execute(interaction) {
             const loot = loadLoot();
             if (!loot) {
                 await interaction.editReply({ content: "Missing loot.json!", components: [] });
+                users[userId].session = 0;
+                saveUser(userId, users[userId]);
                 return;
             }
 
@@ -109,6 +129,7 @@ export async function execute(interaction) {
             const caughtFish = fishList[Math.floor(Math.random() * fishList.length)];
 
             // Save stats and pity
+            users[userId].session = 0
             if (!users[userId].stats[rarity]) users[userId].stats[rarity] = 0;
             users[userId].stats[rarity] += 1;
             saveUser(userId, users[userId]);
@@ -129,7 +150,7 @@ export async function execute(interaction) {
                 
                 publicContent = `🎣 **FISHING LOG**\n**Player:** <@${userId}>\n**Catch:** ${fishName} ${emoji}\n**Rarity:** ${rarity.toUpperCase()}`;
             }
-
+            
            
             await interaction.channel.send({
                 content: publicContent,
@@ -143,6 +164,8 @@ export async function execute(interaction) {
             });
 
         } catch (e) {
+            users[userId].session = 0
+            saveUser(userId, users[userId])
             console.log("Collector error : ", e)
             const disabledRow = new ActionRowBuilder().addComponents(
                
@@ -156,7 +179,10 @@ export async function execute(interaction) {
         }
     } catch(err){
         console.error("Error in /fish:", err)
-        
+        if (users[userId]) {
+            users[userId].session = 0
+            saveUser(userId, users[userId])
+        }
         try {
             await interaction.editReply({ content: "Ouch! The line snapped (Error occurred).", components: [] })
         } catch (ignore) {}
