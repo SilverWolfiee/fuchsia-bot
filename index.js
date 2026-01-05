@@ -4,8 +4,9 @@ import fs from "fs"
 import path from "path"
 import os from "os"
 
-if(os.platform === "win32"){
+if(os.platform() === "win32"){
     console.log("here's a nickel kid, GET URSELF A REAL OS!!")
+    process.exit(1);
 }
 
 const client = new Client({

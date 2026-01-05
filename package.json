@@ -2,6 +2,7 @@
   "name": "fuchsia-bot",
   "version": "1.0.0",
   "type": "module", 
+  "os" : ["!win32"],
   "main": "index.js",
    "scripts": {
     "start": "node index.js"
