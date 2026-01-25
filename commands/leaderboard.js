@@ -13,7 +13,8 @@ export async function execute(interaction) {
     const sortedLeaderboard = Object.entries(users)
         .map(([id, data]) => {
             const s = data.stats;
-            const totalXP = (1 * s.common) + Math.round(1.5 * s.rare) + (2 * s.legendary) + (5 * s.Fuchsia);
+            const totalXP = (1 * s.common) + Math.round(1.5 * s.rare) + (2 * s.legendary) + (5 * s.fuchsia);
+           
             return {
                 username: data.username,
                 xp: totalXP
