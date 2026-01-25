@@ -2,7 +2,8 @@ import { REST, Routes } from "discord.js";
 import "dotenv/config";
 import {command as register} from "./commands/register.js"
 import {command as fish} from "./commands/fish.js"
-const commands = [register, fish].map(cmd =>
+import {command as leaderboard} from "./commands/leaderboard.js"
+const commands = [register, fish, leaderboard].map(cmd =>
   cmd.toJSON()
 );
 
