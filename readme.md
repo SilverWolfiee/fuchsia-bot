@@ -11,8 +11,7 @@ a simple fishing bot that attempt to recreate a bot with the same name in the st
 ---
 
 ## 🧩 Upcoming Features
-- Exp Features
-- leaderboard
+- Nothing, Feel free to add any ideas
 ---
 
 ## 🤝 Contributing
